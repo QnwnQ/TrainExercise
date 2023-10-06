@@ -31,16 +31,23 @@ def find(img, color='R'):
     # 找到原图白色中心点的坐标
     L = len(contours)  # contours轮廓数据是数组，因此用len()测数组长度，为了循环画点使用
 
-    for i in range(L):
-        cnt = contours[i]  # cnt表示第i个白色快的轮廓信息
+    #如果没有识别到白色中心点，则之间返回(0, 0)坐标
+    if L == 0:
+        print("未识别到目标")
+        return (0, 0)
+
+    cnt = contours[0]  # cnt表示第i个白色快的轮廓信息
     (x, y), radius = cv.minEnclosingCircle(cnt)  # 得到白色块外接圆的圆心坐标和半径
     center = (int(x), int(y))  # 画center圆心时。x,y必须是整数
-    print("%s坐标值:" % color,center)
+    print("%s坐标值:" % color, center)
     # 标出中心点
-    circle_color = (0, 0, 255)
-    if color == 'Y':
-        circle_color = (0, 255, 0)
-    cv.circle(img, center, 3, circle_color, 5)  # 传入圆心信息，并画在原图上
+    line_color = (0, 255, 0)
+    # 传入圆心信息，并标在原图上
+    cv.line(img, (int(x) - 15, int(y)), (int(x) + 15, int(y)), line_color, 1)
+    cv.line(img, (int(x), int(y) + 15), (int(x), int(y) - 15), line_color, 1)
+    cv.putText(img, '{}'.format(center), (int(x) - 35, int(y) + 20), cv.FONT_HERSHEY_SIMPLEX, 0.4, line_color)
+
+    #这个判断的只是为了这次任务，还需要进一步改进！！！
     if color == 'Y':
         cv_show('img', img)
 
