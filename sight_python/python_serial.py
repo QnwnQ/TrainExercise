@@ -1,6 +1,7 @@
 import serial
 from time import sleep
 
+
 def recv(serial):
     while True:
         data = serial.read_all()
@@ -18,6 +19,3 @@ def send(send_data):
         print("发送成功", send_data)
     else:
         print("发送失败！")
-
-
-        
