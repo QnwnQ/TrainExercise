@@ -63,8 +63,8 @@ while 1:
         y1_ave = y1_ave / 10
         x2_ave = x2_ave / 10
         y2_ave = y2_ave / 10
-        rad1 = (x2_ave - x1_ave) * 64 / 600.
-        rad2 = (y1_ave - y2_ave) * 50 / 480.
+        rad1 = -(x2_ave - x1_ave) * 64 / 600.
+        rad2 = -(y1_ave - y2_ave) * 50 / 480.
         print("水平方向顺时针旋转角度=%f" % rad1)
         print("竖直方向逆时针旋转角度=%f" % rad2)
 

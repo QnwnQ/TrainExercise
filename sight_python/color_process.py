@@ -17,7 +17,7 @@ def process(img):
     # 转化为HSV进行处理
     HSV = cv.cvtColor(img, cv.COLOR_BGR2HSV)
 
-    lowerColor = np.array([10, 0, 235])
+    lowerColor = np.array([10, 0, 225])
     upperColor = np.array([156, 255, 255])
 
     # 指定区域变白，其他变黑
@@ -25,12 +25,12 @@ def process(img):
 
     # 运用中值滤波去除噪声
     median = cv.medianBlur(binary, 9)
-
+    # cv_show('median', median)
     # 得到轮廓
     contours, hierarchy = cv.findContours(median, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
     img1 = img.copy()
     cv.drawContours(img1, contours, -1, (0, 0, 0), 20)
-
+    # cv_show('img1', img1)
     # 以下是对红色激光点的处理,使用的是img1
     img2 = bg.baoguang(img1)
 
@@ -46,6 +46,7 @@ def process(img):
     cv.threshold(r_b, 180, 255, cv.THRESH_BINARY, r_b)
     kernel = cv.getStructuringElement(cv.MORPH_RECT, (3, 3))
     dilated = cv.dilate(r_b, kernel, iterations=2)
+    # cv_show('dilated', dilated)
     contours_1, hierarchy = cv.findContours(dilated, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
 
     return contours + contours_1
